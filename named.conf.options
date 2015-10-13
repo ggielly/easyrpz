@@ -1,0 +1,64 @@
+options {
+	// Configuration RPZ le 6 juin 2015
+	response-policy { zone "rpz"; };
+	// Fin du RPZ
+
+        directory 	"/var/cache/bind";
+        pid-file 	"/var/named/named.pid";
+        statistics-file "/var/named/named.stats";
+        memstatistics-file "/var/named/named.memstats";
+        dump-file 	"/var/named/named.dump";
+        zone-statistics yes;
+	version 	"The server made a b00b00h.";
+
+	allow-recursion { 193.50.6.0/24; 195.83.84.0/23; 10.6.0.0/16; };
+
+        // Prevent DoS attacks by generating bogus zone transfer
+        // requests.  This will result in slower updates to the
+        // slave servers (e.g. they will await the poll interval
+        // before checking for updates).
+        notify no;
+
+        // Generate more efficient zone transfers.  This will place
+        // multiple DNS records in a DNS message, instead of one per
+        // DNS message.
+        transfer-format many-answers;
+
+        // Set the maximum zone transfer time to something more
+        // reasonable.  In this case, we state that any zone transfer
+        // that takes longer than 60 minutes is unlikely to ever
+        // complete.  WARNING:  If you have very large zone files,
+        // adjust this to fit your requirements.
+        max-transfer-time-in 60;
+
+        auth-nxdomain no;    # conform to RFC1035
+	listen-on { any; };
+};
+
+
+//
+// Access-lists
+//
+acl any {192.168.0.0/24; ;};
+
+// Adresses pourries
+acl spoofbuster {0.0.0.0/8; 1.0.0.0/8; 2.0.0.0/8; 192.0.2.0/24; 224.0.0.0/3; 10.0.0.0/8; 192.168.0.0/16; };
+acl blacklist { 192.168.100.68; 172.16.0.0/12; }; 
+
+//black-hole { blacklist; spoofbuster; };
+
+zone "." {              type hint;      file "/etc/bind/db.root";};
+zone "localhost" {      type master;    file "/etc/bind/db.local";};
+zone "127.in-addr.arpa" { type master;  file "/etc/bind/db.127";};
+zone "0.in-addr.arpa" { type master;    file "/etc/bind/db.0";};
+zone "255.in-addr.arpa" {type master;   file "/etc/bind/db.255";};
+
+
+
+// ZONE RPZ
+zone "rpz" {
+        type master;
+        file "/etc/bind/primary/rpz.db";
+        allow-query { any; };
+        allow-update {none;};
+	};

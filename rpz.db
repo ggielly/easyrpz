@@ -1,0 +1,46 @@
+$TTL    10
+@       IN      SOA     localhost.local. hostmaster.local. (
+
+2015061610          ; Serial
+
+        604800         ; Refresh
+        86400         ; Retry
+        2419200         ; Expire
+        604800 )       ; Negative Cache TTL
+;
+@       IN      NS      localhost.local.
+@       IN      A       127.0.0.1
+@       IN      AAAA    ::1
+;
+; homemade
+;
+
+google-analytics.com 	IN CNAME rpz.your.website.
+*.google-analytics.com	IN CNAME rpz.your.website.
+*.ask.com 		IN CNAME rpz.your.website.
+ad.yahoo.com    	IN CNAME rpz.your.website.
+softpedia.com		IN CNAME rpz.your.website.
+*.softpedia.com		IN CNAME rpz.your.website.
+softonic.com		IN CNAME rpz.your.website.
+*.softonic.com		IN CNAME rpz.your.website.
+softonic.fr    		IN CNAME rpz.your.website.
+*.softonic.fr  		IN CNAME rpz.your.website.
+mgm6688.com		IN CNAME rpz.your.website.
+*.mgm6688.com		IN CNAME rpz.your.website.
+tyzyz.com		IN CNAME rpz.your.website.
+*.tyzyz.com		IN CNAME rpz.your.website.
+360wzd.com		IN CNAME rpz.your.website.
+*.360wzd.com		IN CNAME rpz.your.website.
+marketingsoftwaredownloads.com		IN CNAME rpz.your.website.
+*.marketingsoftwaredownloads.com 	IN CNAME rpz.your.website.
+3mmn.com		IN CNAME rpz.your.website.
+*.3mmn.com 		IN CNAME rpz.your.website.
+*.gstat.orange.fr	IN CNAME rpz.your.website.
+*.namequery.com		IN CNAME rpz.your.website.
+*.absolute.com		IN CNAME rpz.your.website.
+*.nettrace.co.za	IN CNAME rpz.your.website.
+;*.teamviewer.com	IN CNAME rpz.your.website.
+
+
+; external database
+$INCLUDE "/etc/bind/primary/rpz.shallalist.db"

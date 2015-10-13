@@ -223,4 +223,3 @@ rpz.each { |dir|
 puts("Total number of entries: #{total}")
 
 gen_zone_file(zone_file, outputs)
-
